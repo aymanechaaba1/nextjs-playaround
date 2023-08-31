@@ -11,8 +11,9 @@ function Header() {
   const handleLogin = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
+    await supabase.auth.signInWithPassword({
+      email: 'contact@aymane.com',
+      password: 'Aymoune**1',
     });
     router.refresh();
   };
