@@ -1,28 +1,12 @@
-import { PostgrestResponse } from '@supabase/supabase-js';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/route';
 
 export default async function Home() {
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const session = getServerSession(authOptions);
 
-  if (!session) redirect('/auth/login');
-
-  const { data: posts }: PostgrestResponse<Post> = await supabase
-    .from('posts')
-    .select()
-    .order('created_at', { ascending: false });
+  console.log(session);
 
   return (
-    <main className="p-5 flex flex-col justify-center items-center">
-      {posts?.map((post) => (
-        <div key={post.id}>
-          <p>{post.title}</p>
-        </div>
-      ))}
-    </main>
+    <main className="p-5 flex flex-col justify-center items-center"></main>
   );
 }
